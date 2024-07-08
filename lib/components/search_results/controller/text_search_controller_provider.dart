@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../../http/places_api/model/result.dart';
+import '../../../model/google_maps/places/place.dart';
 
-class TextSearchController with ChangeNotifier {
-  List<Result> _results = [];
+class TextSearchControllerProvider with ChangeNotifier {
+  List<Place> _results = [];
 
-  List<Result> get results => _results;
+  List<Place>? get results => _results;
 
-  void getResults(List<Result> results) {
+  void getResults(List<Place> results) {
     _results = results;
     notifyListeners();
   }

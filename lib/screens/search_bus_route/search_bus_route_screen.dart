@@ -1,14 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:helfen_bus/screens/search_bus_route/widgets/place_table_button.dart';
+import 'package:helfen_bus/infra/dataBase/configuration/mysql_db_configuration.dart';
 import 'package:helfen_bus/screens/search_bus_route/widgets/side_menu.dart';
 import 'package:helfen_bus/themes/app_themes.dart';
 import 'package:provider/provider.dart';
 
-import '../../components/search_results/widgets/text_form_field_search.dart';
+import '../../infra/bus_route.dart';
+import '../../infra/dataBase/DAO/bus_route_DAO.dart';
 import '../../infra/provider/theme_provider.dart';
+import 'widgets/text_form_field_search_results.dart';
 
-class SearchBusRouteScreen extends StatelessWidget {
-  const SearchBusRouteScreen({Key? key}) : super(key: key);
+class SearchBusRouteScreen extends StatefulWidget {
+  final MySqlDBConfiguration configuration;
+  const SearchBusRouteScreen({super.key, required this.configuration});
+
+  @override
+  State<SearchBusRouteScreen> createState() => _SearchBusRouteScreenState();
+}
+
+class _SearchBusRouteScreenState extends State<SearchBusRouteScreen> {
+  late BusRouteDAO _busRouteDAO;
+  late BusRouteModel busRoute;
+// late List<BusRoute> allBusRoutes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _busRouteDAO = BusRouteDAO(configuration: widget.configuration);
+    // _initializeBusRouteDAO();
+  }
+
+  // Future<void> _initializeBusRouteDAO() async {
+  //   _busRouteDAO = BusRouteDAO(configuration: widget.configuration);
+  //   try {
+  //     final route = await _busRouteDAO.findOne(628);
+  //     setState(() {
+  //       busRoute = route!;
+  //     });
+  //     CustomLogger.logWarning(busRoute.toString());
+  //   } catch (e) {
+  //     CustomLogger.logError('Error fetching bus routes: $e');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +56,6 @@ class SearchBusRouteScreen extends StatelessWidget {
           themeMode: ThemeMode.system,
           theme: appThemes.getTheme(context),
           home: Scaffold(
-            floatingActionButton: const PlacesDatabaseButton(),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.endDocked,
             drawer: SideMenu(
               themeProvider: themeProvider,
             ),
@@ -46,6 +75,39 @@ class SearchBusRouteScreen extends StatelessWidget {
     );
   }
 }
+
+//bd
+// late BusRouteDAO _busRouteDAO;
+// late BusRoute busRoute;
+// // late List<BusRoute> allBusRoutes = [];
+//
+// @override
+// void initState() {
+//   super.initState();
+//   _initializeBusRouteDAO();
+// }
+//
+// Future<void> _initializeBusRouteDAO() async {
+//   _busRouteDAO = BusRouteDAO(configuration: widget.configuration);
+//   try {
+//     final route = await _busRouteDAO.findOne(628);
+//     setState(() {
+//       busRoute = route;
+//     });
+//     CustomLogger.logWarning(busRoute.toString());
+//   } catch (e) {
+//     CustomLogger.logError('Error fetching bus routes: $e');
+//   }
+// }
+
+// class SearchBusRouteScreen extends StatelessWidget {
+//   final BusRouteDAO busRouteDAO;
+//   final BusStopDAO busStopDAO;
+//
+//   const SearchBusRouteScreen(
+//       {Key? key, required this.busRouteDAO, required this.busStopDAO})
+//       : super(key: key);
+//
 
 //TextFormSearchText(theme: theme),
 // const SizedBox(height: 20),

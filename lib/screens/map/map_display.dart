@@ -1,29 +1,18 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:helfen_bus/Widgets/markers.dart';
-import 'package:helfen_bus/blocs/maps_location_bloc.dart';
+import 'package:helfen_bus/blocs/geolocation/geolocation_bloc.dart';
+import 'package:helfen_bus/screens/map/widgets/marker/route.dart';
 
-class MapDisplay extends StatefulWidget {
-  final MapsLocationController mapLocationController;
+import '../../blocs/geolocation/geolocation_state.dart';
+
+class MapBuilder extends StatelessWidget {
   final LatLng destination;
 
-  const MapDisplay({
+  const MapBuilder({
     super.key,
     required this.destination,
-    required this.mapLocationController,
   });
-
-  @override
-  _MapDisplayState createState() => _MapDisplayState();
-}
-
-class _MapDisplayState extends State<MapDisplay> {
-  final Completer<GoogleMapController> _mapController = Completer();
-  late final Markers markers = Markers(
-      currentPosition: widget.mapLocationController.currentLocation!,
-      destination: widget.destination);
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +20,27 @@ class _MapDisplayState extends State<MapDisplay> {
       appBar: AppBar(
         title: const Text('Mapa de Localização'),
       ),
-      body: (widget.mapLocationController.currentLocation == null)
-          ? const Center(
+      body: BlocBuilder<GeolocationBloc, GeolocationState>(
+        builder: (context, state) {
+          if (state is GeolocationLoaded) {
+            return CreateRoute(
+                currentLocation: state.position, destination: destination);
+            // return MapScreen(
+            //     destination: destination, currentLocation: state.position!);
+          } else if (state is GeolocationLoading) {
+            return const Center(
               child: CircularProgressIndicator(),
-            )
-          : GoogleMap(
-              mapType: MapType.normal,
-              onMapCreated: (controller) => _mapController.complete(controller),
-              initialCameraPosition: CameraPosition(
-                target: widget.destination,
-                zoom: 15.0,
-              ),
-              markers: markers.getMarkers(),
-            ),
+            );
+          } else {
+            return const Text('erro ao obter localização'); // som
+          }
+        },
+      ),
     );
   }
 }
+
+// _markers.add(_createMarker(
+//     position: widget.destination,
+//     hue: BitmapDescriptor.hueRose,
+//     title: 'Destino'));

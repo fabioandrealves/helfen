@@ -8,9 +8,9 @@ class RouteProvider extends ChangeNotifier {
 
   RouteProvider({required this.busRouteDAO});
 
-  List<BusRoute> _searchResults = [];
+  List<BusRouteModel> _searchResults = [];
 
-  List<BusRoute> get searchResults => _searchResults;
+  List<BusRouteModel> get searchResults => _searchResults;
 
   Future<void> searchBusRoutes(String searchText) async {
     if (searchText.isEmpty) {
