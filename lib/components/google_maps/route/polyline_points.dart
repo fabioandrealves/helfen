@@ -3,6 +3,8 @@ import 'package:helfen_bus/components/google_maps/route/src/utils/polyline_resul
 import 'package:helfen_bus/components/google_maps/route/src/utils/polyline_waypoint.dart';
 import 'package:helfen_bus/components/google_maps/route/src/utils/request_enums.dart';
 
+import '../../../infra/http/services/google_maps/polyline_service.dart';
+
 class PolylinePoints {
   RouteService route = RouteService();
 

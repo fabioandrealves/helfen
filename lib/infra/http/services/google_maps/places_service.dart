@@ -4,8 +4,8 @@ import 'package:helfen_bus/model/google_maps/places/place.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/intercepted_client.dart';
 
-import '../../../../mapS.dart';
 import '../../../logger/http_Interceptors.dart';
+import '../../mapS.dart';
 
 class PlacesService {
   String url =

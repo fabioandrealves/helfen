@@ -1,6 +1,6 @@
+import 'package:helfen_bus/infra/http/mapS.dart';
 import 'package:mysql1/mysql1.dart';
 
-import '../../../mapS.dart';
 import '../../logger/custom_logger.dart';
 import '../db_configuration.dart';
 

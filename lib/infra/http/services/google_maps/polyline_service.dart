@@ -7,8 +7,8 @@ import '../../../../components/google_maps/route/src/PointLatLng.dart';
 import '../../../../components/google_maps/route/src/utils/polyline_result.dart';
 import '../../../../components/google_maps/route/src/utils/polyline_waypoint.dart';
 import '../../../../components/google_maps/route/src/utils/request_enums.dart';
-import '../../../../mapS.dart';
 import '../../../logger/http_Interceptors.dart';
+import '../../mapS.dart';
 
 class RouteService {
   static const String STATUS_OK = "ok";

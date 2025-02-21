@@ -3,12 +3,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:helfen_bus/blocs/route/route_event.dart';
 import 'package:helfen_bus/blocs/route/route_state.dart';
-import 'package:helfen_bus/screens/map/marker_helper.dart';
 
 import '../../infra/bus_stop.dart';
 import '../../infra/dataBase/DAO/stop_bus_DAO.dart';
 import '../../infra/logger/custom_logger.dart';
-import '../../screens/map/polyline_helper.dart';
+import '../../screens/map/marker/marker_helper.dart';
+import '../../screens/map/polyline/polyline_helper.dart';
 
 class RouteBloc extends Bloc<RouteEvent, RouteState> {
   final StopBusDAO stopBusDAO;
@@ -59,10 +59,9 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
     final relevantStops = _getRelevantStops(
       stops: stops,
       stopCurrentRouteNumber: nearestStop.routeNumber,
-      stopDestinationRouteNumber: nearestDestinationStop.routeNumber,
-      stopDestinationIsOutbound: nearestDestinationStop.isOutbound,
       stopCurrentIsOutbound: nearestStop.isOutbound,
     );
+    CustomLogger.logInfo('Relevant Stops: ${relevantStops.length}');
     return _createMarkersAndPolylines(relevantStops);
   }
 
@@ -90,15 +89,11 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
   List<StopBusModel> _getRelevantStops(
       {required List<StopBusModel> stops,
       required int stopCurrentRouteNumber,
-      required int stopDestinationRouteNumber,
-      required bool stopCurrentIsOutbound,
-      required bool stopDestinationIsOutbound}) {
+      required bool stopCurrentIsOutbound}) {
     return stops
         .where((stop) =>
             stop.routeNumber == stopCurrentRouteNumber &&
-            stop.routeNumber == stopDestinationRouteNumber &&
-            stop.isOutbound == stopCurrentIsOutbound &&
-            stop.isOutbound == stopDestinationIsOutbound)
+            stop.isOutbound == stopCurrentIsOutbound)
         .toList();
   }
 
@@ -115,7 +110,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
         ),
         assetName: _markerHelper.getMarkerAsset(
             index: i, totalStops: relevantStops.length),
-        title: 'Parada ${i + 1}',
+        title: 'Parada $i',
       );
 
       routePoints.add(LatLng(

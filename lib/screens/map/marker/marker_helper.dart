@@ -20,10 +20,8 @@ class MarkerHelper {
     return Marker(
       markerId: MarkerId(position.toString()),
       position: position,
-      icon: await BitmapDescriptor.fromAssetImage(
-        const ImageConfiguration(size: Size(50, 50)),
-        assetName,
-      ),
+      icon: await BitmapDescriptor.asset(
+          const ImageConfiguration(size: Size(50, 50)), assetName),
       infoWindow: InfoWindow(title: title),
     );
   }

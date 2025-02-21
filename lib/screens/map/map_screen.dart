@@ -8,6 +8,7 @@ import 'package:helfen_bus/screens/map/widgets/marker/location_markers.dart';
 
 import '../../blocs/route/route_bloc.dart';
 import '../../blocs/route/route_state.dart';
+import '../../infra/http/mapS.dart';
 
 class MapView extends StatefulWidget {
   final Position currentLocation;
@@ -62,30 +63,30 @@ class _MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RouteBloc, RouteState>(
-      builder: (context, state) {
+    return BlocListener<RouteBloc, RouteState>(
+      listener: (context, state) {
         if (state is RouteLoading) {
-          return const Center(child: CircularProgressIndicator());
+          Maps.speakText.speak('Carregando mapa');
+          const Center(child: CircularProgressIndicator());
         } else if (state is RouteLoaded) {
           _updateMarkersAndPolylines(state);
         } else if (state is RouteError) {
-          return const Center(child: Text('Erro ao carregar marcadores'));
+          const Center(child: Text('Erro ao carregar marcadores'));
         }
-
-        return GoogleMap(
-          mapType: MapType.normal,
-          onMapCreated: (controller) {
-            _googleMapController = controller;
-            _completer.complete(_googleMapController);
-          },
-          initialCameraPosition: CameraPosition(
-            target: widget.destination,
-            zoom: 15.0,
-          ),
-          markers: _markers.toSet(),
-          polylines: _polylines.toSet(),
-        );
       },
+      child: GoogleMap(
+        mapType: MapType.normal,
+        onMapCreated: (controller) {
+          _googleMapController = controller;
+          _completer.complete(_googleMapController);
+        },
+        initialCameraPosition: CameraPosition(
+          target: widget.destination,
+          zoom: 15.0,
+        ),
+        markers: _markers.toSet(),
+        polylines: _polylines.toSet(),
+      ),
     );
   }
 }

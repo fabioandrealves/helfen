@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../components/google_maps/route/polyline_points.dart';
-import '../../components/google_maps/route/src/PointLatLng.dart';
-import '../../components/google_maps/route/src/utils/polyline_result.dart';
+import '../../../components/google_maps/route/polyline_points.dart';
+import '../../../components/google_maps/route/src/PointLatLng.dart';
+import '../../../components/google_maps/route/src/utils/polyline_result.dart';
 
 class PolylineHelper {
   final PolylinePoints polylinePoints = PolylinePoints();

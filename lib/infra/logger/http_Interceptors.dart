@@ -1,7 +1,8 @@
-import 'package:helfen_bus/http/logger/custom_logger.dart';
 import 'package:http_interceptor/http/interceptor_contract.dart';
 import 'package:http_interceptor/models/request_data.dart';
 import 'package:http_interceptor/models/response_data.dart';
+
+import 'custom_logger.dart';
 
 class LoggingInterceptor implements InterceptorContract {
   @override
