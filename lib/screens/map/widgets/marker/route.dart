@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:helfen_bus/blocs/route/route_bloc.dart';
+import 'package:helfen_bus/cubit/nearest_stop_cubit.dart';
 import 'package:helfen_bus/screens/map/map_screen.dart';
 
 import '../../../../blocs/route/route_event.dart';
@@ -23,6 +24,9 @@ class CreateRoute extends StatefulWidget {
 class _CreateRouteState extends State<CreateRoute> {
   late StopBusDAO _stopBusDAO;
 
+  NearestStopCubit get _nearestStopCubit =>
+      BlocProvider.of<NearestStopCubit>(context);
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +37,7 @@ class _CreateRouteState extends State<CreateRoute> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => RouteBloc(
+          nearestStopCubit: _nearestStopCubit,
           stopBusDAO: _stopBusDAO,
           currentLocation: widget.currentLocation,
           destination: widget.destination)

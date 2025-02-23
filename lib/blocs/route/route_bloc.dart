@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:helfen_bus/blocs/route/route_event.dart';
 import 'package:helfen_bus/blocs/route/route_state.dart';
+import 'package:helfen_bus/cubit/nearest_stop_cubit.dart';
 
 import '../../infra/bus_stop.dart';
 import '../../infra/dataBase/DAO/stop_bus_DAO.dart';
@@ -11,6 +12,7 @@ import '../../screens/map/marker/marker_helper.dart';
 import '../../screens/map/polyline/polyline_helper.dart';
 
 class RouteBloc extends Bloc<RouteEvent, RouteState> {
+  final NearestStopCubit nearestStopCubit;
   final StopBusDAO stopBusDAO;
   final Position? currentLocation;
   final LatLng destination;
@@ -18,6 +20,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
   final MarkerHelper _markerHelper = MarkerHelper();
 
   RouteBloc({
+    required this.nearestStopCubit,
     required this.stopBusDAO,
     required this.currentLocation,
     required this.destination,
@@ -55,6 +58,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
         'Ponto mais próximo de currentPosition: ${nearestStop.stopBus}');
     CustomLogger.logWarning(
         'Ponto mais próximo do Destino: ${nearestDestinationStop.stopBus}');
+    nearestStopCubit.updateNearestStop(stop: nearestStop);
 
     final relevantStops = _getRelevantStops(
       stops: stops,

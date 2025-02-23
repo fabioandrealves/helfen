@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helfen_bus/components/search_results/controller/text_search_controller_provider.dart';
+import 'package:helfen_bus/cubit/nearest_stop_cubit.dart';
 import 'package:helfen_bus/screens/search_bus_route/search_bus_route_screen.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -21,6 +22,7 @@ void main() async {
 
 class BlocStructure extends StatefulWidget {
   final configuration = MySqlDBConfiguration();
+
   BlocStructure({super.key});
 
   @override
@@ -58,6 +60,9 @@ class _BlocStructureState extends State<BlocStructure> {
         providers: [
           BlocProvider<GeolocationBloc>(
             create: (_) => GeolocationBloc(),
+          ),
+          BlocProvider<NearestStopCubit>(
+            create: (_) => NearestStopCubit(),
           )
         ],
         child: SearchBusRouteScreen(
