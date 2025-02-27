@@ -24,7 +24,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
     required this.stopBusDAO,
     required this.currentLocation,
     required this.destination,
-  }) : super(RouteLoading()) {
+  }) : super(RouteInitial()) {
     on<LoadRoute>(_onLoadRoute);
     on<UpdateRoute>(_onUpdateRoute);
     add(LoadRoute());
@@ -32,6 +32,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
 
   Future<void> _onLoadRoute(LoadRoute event, Emitter<RouteState> emit) async {
     try {
+      emit(RouteLoading());
       final markersAndPolylines = await _buildMarkersAndPolylines();
       emit(RouteLoaded(route: markersAndPolylines));
     } catch (e) {
@@ -40,7 +41,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
   }
 
   void _onUpdateRoute(UpdateRoute event, Emitter<RouteState> emit) {
-    emit(RouteLoading());
+    emit(RouteInitial());
   }
 
   Future<List<MapEntry<Marker, Polyline>>> _buildMarkersAndPolylines() async {

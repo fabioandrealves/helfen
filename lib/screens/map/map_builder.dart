@@ -5,6 +5,7 @@ import 'package:helfen_bus/blocs/geolocation/geolocation_bloc.dart';
 import 'package:helfen_bus/screens/map/widgets/marker/route.dart';
 
 import '../../blocs/geolocation/geolocation_state.dart';
+import '../../infra/http/mapS.dart';
 
 class MapBuilder extends StatelessWidget {
   final LatLng destination;
@@ -18,18 +19,36 @@ class MapBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mapa de Localização'),
+        title: const Text('Mapa'),
+        leading: Semantics(
+          button: true,
+          child: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              semanticLabel: 'Voltar para a tela anterior',
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
       ),
       body: BlocBuilder<GeolocationBloc, GeolocationState>(
         builder: (context, state) {
           if (state is GeolocationLoaded) {
             return CreateRoute(
                 currentLocation: state.position, destination: destination);
-            // return MapScreen(
-            //     destination: destination, currentLocation: state.position!);
           } else if (state is GeolocationLoading) {
+            Maps.speakText.speak('Carregando mapa.');
             return const Center(
-              child: CircularProgressIndicator(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 20),
+                  Text("Carregando mapa..."),
+                ],
+              ),
             );
           } else {
             return const Text('erro ao obter localização'); // som

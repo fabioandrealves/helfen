@@ -6,6 +6,8 @@ abstract class RouteState extends Equatable {
   List<Object?> get props => [];
 }
 
+class RouteInitial extends RouteState {}
+
 class RouteLoading extends RouteState {}
 
 class RouteLoaded extends RouteState {

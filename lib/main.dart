@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helfen_bus/components/search_results/controller/text_search_controller_provider.dart';
 import 'package:helfen_bus/cubit/nearest_stop_cubit.dart';
-import 'package:helfen_bus/screens/search_bus_route/search_bus_route_screen.dart';
+import 'package:helfen_bus/screens/search_bus_route/home_screen.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -63,9 +63,9 @@ class _BlocStructureState extends State<BlocStructure> {
           ),
           BlocProvider<NearestStopCubit>(
             create: (_) => NearestStopCubit(),
-          )
+          ),
         ],
-        child: SearchBusRouteScreen(
+        child: HomeScreen(
           configuration: widget.configuration,
         ),
       ),

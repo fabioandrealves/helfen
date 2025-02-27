@@ -4,7 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:helfen_bus/blocs/route/route_bloc.dart';
 import 'package:helfen_bus/cubit/nearest_stop_cubit.dart';
-import 'package:helfen_bus/screens/map/map_screen.dart';
+import 'package:helfen_bus/screens/map/map_view.dart';
 
 import '../../../../blocs/route/route_event.dart';
 import '../../../../infra/dataBase/DAO/stop_bus_DAO.dart';

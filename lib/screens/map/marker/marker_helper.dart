@@ -8,7 +8,7 @@ class MarkerHelper {
     } else if (index == totalStops - 1) {
       return 'assets/images/fim32.png';
     } else {
-      return 'assets/images/parada.png';
+      return 'assets/images/parada_3.png';
     }
   }
 
